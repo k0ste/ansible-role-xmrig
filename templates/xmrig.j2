@@ -1,0 +1,35 @@
+{{ '// ' + 'xmrig.conf' }}
+{{ '// ' + ansible_managed }}
+{{ '// ' + 'Do not edit manually' }}
+
+{% for x in hostvars[inventory_hostname]['xmrig'] %}
+{% if loop.first %}
+{{ '{' }}
+{% endif %}
+{% include 'xmrig_main.j2' %}
+{% if x.api is defined and x.api != '' %}
+{% for xa in x.api %}
+{% if loop.first %}
+{{ '  ' ~ '\"api\"' ~ ': {' }}
+{% endif %}
+{% include 'xmrig_api.j2' %}
+{% if loop.last %}
+{{ '  ' + '},' }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if x.pools is defined and x.pools != '' %}
+{% for xp in x.pools %}
+{% if loop.first %}
+{{ '  ' + '\"pools\"' + ': [' }}
+{% endif %}
+{% include 'xmrig_pool.j2' %}
+{% if loop.last %}
+{{ '  ' + '],' }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if loop.last %}
+{{ '}' }}
+{% endif %}
+{% endfor %}
