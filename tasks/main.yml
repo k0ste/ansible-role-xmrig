@@ -1,0 +1,10 @@
+---
+- include: pre_requisite.yml
+- include: packages.yml
+  when:
+  - "vars['xmrig_install_package'] is defined"
+  - "vars['xmrig_install_package'] == true"
+- include: deploy_xmrig.yml
+  when:
+  - "vars['xmrig_instance'] is defined"
+  - "vars['xmrig_instance'] != ''"

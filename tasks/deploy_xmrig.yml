@@ -1,0 +1,19 @@
+---
+- name: xmrig | Deploy xmrig configuration
+  template:
+    src: "xmrig.j2"
+    dest: "{{ vars['xmrig_conf_dest'] + '/' + 'xmrig.conf' }}"
+    owner: "{{ vars['xmrig_user'] }}"
+    group: "{{ vars['xmrig_group'] }}"
+    mode: "0644"
+  notify:
+  - "Restart xmrig"
+- name: xmrig | Enable xmrig service
+  systemd:
+    name: "{{ vars['xmrig_service'] }}"
+    state: "started"
+    daemon_reload: "yes"
+    enabled: "yes"
+  when:
+  - "vars['xmrig_enable'] is defined"
+  - "vars['xmrig_enable'] == true"

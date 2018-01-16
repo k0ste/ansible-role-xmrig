@@ -2,7 +2,7 @@
 {{ '// ' + ansible_managed }}
 {{ '// ' + 'Do not edit manually' }}
 
-{% for x in hostvars[inventory_hostname]['xmrig'] %}
+{% for x in vars['xmrig_instance'] %}
 {% if loop.first %}
 {{ '{' }}
 {% endif %}

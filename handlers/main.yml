@@ -1,0 +1,8 @@
+---
+- name: Restart xmrig
+  service:
+    name: "{{ vars['xmrig_service'] }}"
+    state: "restarted"
+  when:
+  - "vars['xmrig_restart'] is defined"
+  - "vars['xmrig_restart'] == true"
