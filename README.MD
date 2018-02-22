@@ -1,20 +1,23 @@
 ansible-xmrig
 ===============
 
-Deploy [xmrig](//github.com/xmrig/xmrig) - Monero (XMR) CPU miner.
+Deploy [xmrig](//github.com/xmrig/xmrig) - High Perf CryptoNote CPU Miner
+(Monero, Aeon).
 
 Requirements
 ---------------
 
 * Ansible 2.2;
+* xmrig 2.4.5+
 * jmespath;
 * ArchLinux;
 
 Extra
 ---------
 
-Please note that is not possible to validate json configuration because `xmrig`
-use wrong exit codes, see [xmrig#341](//github.com/xmrig/xmrig/issues/341).
+~~Please note that is not possible to validate json configuration because `xmrig`
+use wrong exit codes, see [xmrig#341](//github.com/xmrig/xmrig/issues/341).~~
+Option `--dry-run` supported since `xmrig` 2.4.5.
 
 Example configuration
 -----------------------
@@ -78,9 +81,9 @@ xmrig:
       worker_id: 'null'
     pools:
     # URL of mining server.
-    - url: 'pool.minemonero.pro:5555'
+    - url: 'xmr.napaster.name:15555'
       # Username for mining server.
-      user: ''
+      user: '43kwWi8seNj1arEEKkbS95jAQRdPuY6hmiKqwS3wirGgNG5xPqUBxJvj214k1w48rB8Hzht9ZpUWcb2AWxmCL41tCH11mjh'
       # Password for mining server.
       pass: 'x'
       # Send keepalived for prevent timeout (need pool support).
@@ -88,9 +91,9 @@ xmrig:
       # Enable nicehash/xmrig-proxy support.
       nicehash: 'false'
   # Additional user string options supported.
-    - url: 'pool.minemonero.pro:5555'
+    - url: 'aeon.napaster.name:43335'
       user:
-      - user_name: 'user2'
+      - user_name: 'Wmt7Dx71mmZFaKNMxzD12KXKv1D7moHhKEKV9aZxZ3gAYF8NqLygY23T1heASC2fnxAYcfKW7x2xN9UCtKJBPusg1GM9ZGEcD'
         payment_id: 'payment_id2'
         worker_name: "worker_name2"
         email: "user2@example.com"

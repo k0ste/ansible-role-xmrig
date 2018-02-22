@@ -6,6 +6,7 @@
     owner: "{{ vars['xmrig_user'] }}"
     group: "{{ vars['xmrig_group'] }}"
     mode: "0644"
+    validate: "{{ 'xmrig --dry-run -c %s' }}"
   notify:
   - "Restart xmrig"
 - name: xmrig | Enable xmrig service
