@@ -1,16 +1,10 @@
 ---
 - assert:
     that:
-    - "hostvars[inventory_hostname]['ansible_pkg_mgr'] is defined"
-    msg: "'ansible_facts' not found. Please enable facts gathering."
-- debug:
-    msg: "{{ 'Package manager is: ' + hostvars[inventory_hostname]['ansible_pkg_mgr'] + ', not pacman.' }}"
-  when:
-  - "hostvars[inventory_hostname]['ansible_pkg_mgr'] != 'pacman'"
-- assert:
-    that:
     - "hostvars[inventory_hostname]['xmrig'] is defined"
     msg: "'xmrig' configuration not found. Please define something."
+- name: xmrig | Add the OS specific variables
+  include_vars: "{{ hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
 - name: xmrig | Set facts about role settings
   set_fact:
     xmrig_enable: "{{ hostvars[inventory_hostname]['xmrig'] |
@@ -19,41 +13,26 @@
     xmrig_restart: "{{ hostvars[inventory_hostname]['xmrig'] |
                        json_query(\"[].role_settings[] |
                        map(&restart || 'no', @)\") | join() }}"
-    xmrig_user: "{{ hostvars[inventory_hostname]['xmrig'] |
-                    json_query(\"[].role_settings[] |
-                    map(&user || 'root', @)\") | join() }}"
-    xmrig_group: "{{ hostvars[inventory_hostname]['xmrig'] |
-                     json_query(\"[].role_settings[] |
-                     map(&group || 'root', @)\") | join() }}"
     xmrig_install_package: "{{ hostvars[inventory_hostname]['xmrig'] |
                                json_query(\"[].role_settings[] |
                                map(&install_package || 'no', @)\") | join() }}"
-    xmrig_service: "{{ hostvars[inventory_hostname]['xmrig'] |
-                       json_query(\"[].role_settings[] |
-                       map(&service || 'xmrig', @)\") | join() }}"
-    xmrig_conf_dest: "{{ hostvars[inventory_hostname]['xmrig'] |
-                         json_query(\"[].role_settings[] |
-                         map(&conf_dest || '/etc/xmrig', @)\") | join() }}"
-    xmrig_package: "{{ hostvars[inventory_hostname]['xmrig'] |
-                       json_query(\"[].role_settings[] |
-                       map(&package || 'xmrig', @)\") | join() }}"
 - name: xmrig | Set facts about xmrig instance
   set_fact:
-    xmrig_instance: "{{ hostvars[inventory_hostname]['xmrig'] |
-                       json_query('[].instance_settings[]') }}"
+    xmrig_instances: "{{ hostvars[inventory_hostname]['xmrig'] |
+                         json_query('[].instance_settings[].name') }}"
 - assert:
     that:
-    - "vars['xmrig_instance'] is defined"
-    - "vars['xmrig_instance'] != []"
+    - "vars['xmrig_instances'] is defined"
+    - "vars['xmrig_instances'] != []"
     msg: "'xmrig.xmrig_instance' configuration not found.
           Please define something."
 - name: xmrig | Make working directory
   file:
-    path: "{{ vars['xmrig_conf_dest'] | default(omit) }}"
+    path: "{{ hostvars[inventory_hostname]['xmrig_conf_dest'] | default(omit) }}"
     state: "directory"
-    owner: "{{ vars['xmrig_user'] | default(omit) }}"
-    group: "{{ vars['xmrig_group'] | default(omit) }}"
+    owner: "root"
+    group: "root"
     mode: "0755"
   when:
-  - "vars['xmrig_instance'] is defined"
-  - "vars['xmrig_instance'] != ''"
+  - "vars['xmrig_instances'] is defined"
+  - "vars['xmrig_instances'] != ''"

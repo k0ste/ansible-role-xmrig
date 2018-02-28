@@ -1,6 +1,6 @@
 ---
 - name: xmrig | Install the required packages in ArchLinux derivatives
   pacman:
-    name: "{{ vars['xmrig_package'] }}"
+    name: "{{ hostvars[inventory_hostname]['xmrig_package'] }}"
     state: "installed"
     update_cache: "yes"

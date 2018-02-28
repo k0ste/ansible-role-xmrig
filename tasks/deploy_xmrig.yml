@@ -2,19 +2,25 @@
 - name: xmrig | Deploy xmrig configuration
   template:
     src: "xmrig.j2"
-    dest: "{{ vars['xmrig_conf_dest'] + '/' + 'xmrig.conf' }}"
-    owner: "{{ vars['xmrig_user'] }}"
-    group: "{{ vars['xmrig_group'] }}"
+    dest: "{{ hostvars[inventory_hostname]['xmrig_conf_dest'] ~ '/' ~ item.name ~ '.conf' }}"
+    owner: "{{ hostvars[inventory_hostname]['xmrig_user'] }}"
+    group: "{{ hostvars[inventory_hostname]['xmrig_group'] }}"
     mode: "0644"
     validate: "{{ 'xmrig --dry-run -c %s' }}"
+  with_items: "{{ hostvars[inventory_hostname]['xmrig'] | json_query(\"[].instance_settings[?name=='\" + vars['outer_item'] + \"']\") }}"
+  loop_control:
+    label: "{{ item.name }}"
   notify:
   - "Restart xmrig"
 - name: xmrig | Enable xmrig service
   systemd:
-    name: "{{ vars['xmrig_service'] }}"
+    name: "{{ hostvars[inventory_hostname]['xmrig_service'] + item.name }}"
     state: "started"
     daemon_reload: "yes"
     enabled: "yes"
+  with_items: "{{ hostvars[inventory_hostname]['xmrig'] | json_query(\"[].instance_settings[?name=='\" + vars['outer_item'] + \"']\") }}"
+  loop_control:
+    label: "{{ item.name }}"
   when:
   - "vars['xmrig_enable'] is defined"
   - "vars['xmrig_enable'] == true"

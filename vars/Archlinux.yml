@@ -1,0 +1,6 @@
+---
+xmrig_service: 'xmrig@'
+xmrig_conf_dest: '/etc/xmrig'
+xmrig_package: 'xmrig'
+xmrig_user: 'xmrig'
+xmrig_group: 'xmrig'

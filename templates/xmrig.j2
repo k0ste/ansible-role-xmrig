@@ -2,13 +2,10 @@
 {{ '// ' + ansible_managed }}
 {{ '// ' + 'Do not edit manually' }}
 
-{% for x in vars['xmrig_instance'] %}
-{% if loop.first %}
 {{ '{' }}
-{% endif %}
 {% include 'xmrig_main.j2' %}
-{% if x.api is defined and x.api != '' %}
-{% for xa in x.api %}
+{% if item.api is defined and item.api != '' %}
+{% for xa in item.api %}
 {% if loop.first %}
 {{ '  ' ~ '\"api\"' ~ ': {' }}
 {% endif %}
@@ -18,8 +15,8 @@
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if x.pools is defined and x.pools != '' %}
-{% for xp in x.pools %}
+{% if item.pools is defined and item.pools != '' %}
+{% for xp in item.pools %}
 {% if loop.first %}
 {{ '  ' + '\"pools\"' + ': [' }}
 {% endif %}
@@ -29,7 +26,4 @@
 {% endif %}
 {% endfor %}
 {% endif %}
-{% if loop.last %}
 {{ '}' }}
-{% endif %}
-{% endfor %}

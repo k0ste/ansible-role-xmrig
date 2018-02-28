@@ -4,7 +4,7 @@
   when:
   - "vars['xmrig_install_package'] is defined"
   - "vars['xmrig_install_package'] == true"
-- include: deploy_xmrig.yml
+- include: xmrig_executor.yml
   when:
-  - "vars['xmrig_instance'] is defined"
-  - "vars['xmrig_instance'] != ''"
+  - "vars['xmrig_instances'] is defined"
+  - "vars['xmrig_instances'] != ''"

@@ -1,57 +1,57 @@
-{% if x.algo is defined and x.algo in ['cryptonight', 'cryptonight-lite'] %}
-{{ '  ' ~ '\"algo\"' ~ ': \"' ~ x.algo ~ '\",' }}
+{% if item.algo is defined and item.algo in ['cryptonight', 'cryptonight-lite'] %}
+{{ '  ' ~ '\"algo\"' ~ ': \"' ~ item.algo ~ '\",' }}
 {% endif %}
-{% if x.av is defined and x.av in ['0', '1', '2', '3', '4'] %}
-{{ '  ' ~ '\"av\"' ~ ': ' ~ x.av ~ ',' }}
+{% if item.av is defined and item.av in ['0', '1', '2', '3', '4'] %}
+{{ '  ' ~ '\"av\"' ~ ': ' ~ item.av ~ ',' }}
 {% endif %}
-{% if x.background is defined and x.background in ['true', 'false'] %}
-{{ '  ' ~ '\"background\"' ~ ': ' ~ x.av ~ ',' }}
+{% if item.background is defined and item.background in ['true', 'false'] %}
+{{ '  ' ~ '\"background\"' ~ ': ' ~ item.av ~ ',' }}
 {% endif %}
-{% if x.colors is defined and x.colors in ['true', 'false'] %}
-{{ '  ' ~ '\"colors\"' ~ ': ' ~ x.colors ~ ',' }}
+{% if item.colors is defined and item.colors in ['true', 'false'] %}
+{{ '  ' ~ '\"colors\"' ~ ': ' ~ item.colors ~ ',' }}
 {% endif %}
-{% if x.cpu_affinity is defined and x.cpu_affinity != '' %}
-{% if x.cpu_affinity == 'null' %}
-{{ '  ' ~ '\"cpu-affinity\"' ~ ': ' ~ x.cpu_affinity ~ ',' }}
+{% if item.cpu_affinity is defined and item.cpu_affinity != '' %}
+{% if item.cpu_affinity == 'null' %}
+{{ '  ' ~ '\"cpu-affinity\"' ~ ': ' ~ item.cpu_affinity ~ ',' }}
 {% else %}
-{{ '  ' ~ '\"cpu-affinity\"' ~ ': \"' ~ x.cpu_affinity ~ '\",' }}
+{{ '  ' ~ '\"cpu-affinity\"' ~ ': \"' ~ item.cpu_affinity ~ '\",' }}
 {% endif %}
 {% endif %}
-{% if x.cpu_priority is defined and x.cpu_priority != '' %}
-{% if x.cpu_priority == 'null' %}
-{{ '  ' ~ '\"cpu-priority\"' ~ ': ' ~ x.cpu_priority ~ ',' }}
+{% if item.cpu_priority is defined and item.cpu_priority != '' %}
+{% if item.cpu_priority == 'null' %}
+{{ '  ' ~ '\"cpu-priority\"' ~ ': ' ~ item.cpu_priority ~ ',' }}
 {% else %}
-{{ '  ' ~ '\"cpu-priority\"' ~ ': \"' ~ x.cpu_priority ~ '\",' }}
+{{ '  ' ~ '\"cpu-priority\"' ~ ': \"' ~ item.cpu_priority ~ '\",' }}
 {% endif %}
 {% endif %}
-{% if x.log_file is defined and x.log_file != '' %}
-{% if x.log_file == 'null' %}
-{{ '  ' ~ '\"log-file\"' ~ ': ' ~ x.log_file ~ ',' }}
+{% if item.log_file is defined and item.log_file != '' %}
+{% if item.log_file == 'null' %}
+{{ '  ' ~ '\"log-file\"' ~ ': ' ~ item.log_file ~ ',' }}
 {% else %}
-{{ '  ' ~ '\"log-file\"' ~ ': \"' ~ x.log_file ~ '\",' }}
+{{ '  ' ~ '\"log-file\"' ~ ': \"' ~ item.log_file ~ '\",' }}
 {% endif %}
 {% endif %}
-{% if x.donate_level is defined and x.donate_level != '' %}
-{{ '  ' ~ '\"donate-level\"' ~ ': ' ~ x.donate_level ~ ',' }}
+{% if item.donate_level is defined and item.donate_level != '' %}
+{{ '  ' ~ '\"donate-level\"' ~ ': ' ~ item.donate_level ~ ',' }}
 {% endif %}
-{% if x.max_cpu_usage is defined and x.max_cpu_usage != '' %}
-{{ '  ' ~ '\"max-cpu-usage\"' ~ ': ' ~ x.max_cpu_usage ~ ',' }}
+{% if item.max_cpu_usage is defined and item.max_cpu_usage != '' %}
+{{ '  ' ~ '\"max-cpu-usage\"' ~ ': ' ~ item.max_cpu_usage ~ ',' }}
 {% endif %}
-{% if x.print_time is defined and x.print_time != '' %}
-{{ '  ' ~ '\"print-time\"' ~ ': ' ~ x.print_time ~ ',' }}
+{% if item.print_time is defined and item.print_time != '' %}
+{{ '  ' ~ '\"print-time\"' ~ ': ' ~ item.print_time ~ ',' }}
 {% endif %}
-{% if x.retries is defined and x.retries != '' %}
-{{ '  ' ~ '\"retries\"' ~ ': ' ~ x.retries ~ ',' }}
+{% if item.retries is defined and item.retries != '' %}
+{{ '  ' ~ '\"retries\"' ~ ': ' ~ item.retries ~ ',' }}
 {% endif %}
-{% if x.retry_pause is defined and x.retry_pause != '' %}
-{{ '  ' ~ '\"retry-pause\"' ~ ': ' ~ x.retry_pause ~ ',' }}
+{% if item.retry_pause is defined and item.retry_pause != '' %}
+{{ '  ' ~ '\"retry-pause\"' ~ ': ' ~ item.retry_pause ~ ',' }}
 {% endif %}
-{% if x.safe is defined and x.safe in ['true', 'false'] %}
-{{ '  ' ~ '\"safe\"' ~ ': ' ~ x.safe ~ ',' }}
+{% if item.safe is defined and item.safe in ['true', 'false'] %}
+{{ '  ' ~ '\"safe\"' ~ ': ' ~ item.safe ~ ',' }}
 {% endif %}
-{% if x.syslog is defined and x.syslog in ['true', 'false'] %}
-{{ '  ' ~ '\"syslog\"' ~ ': ' ~ x.syslog ~ ',' }}
+{% if item.syslog is defined and item.syslog in ['true', 'false'] %}
+{{ '  ' ~ '\"syslog\"' ~ ': ' ~ item.syslog ~ ',' }}
 {% endif %}
-{% if x.threads is defined and x.threads != '' %}
-{{ '  ' ~ '\"threads\"' ~ ': ' ~ x.threads ~ ',' }}
+{% if item.threads is defined and item.threads != '' %}
+{{ '  ' ~ '\"threads\"' ~ ': ' ~ item.threads ~ ',' }}
 {% endif %}
