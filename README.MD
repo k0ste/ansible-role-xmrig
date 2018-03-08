@@ -7,7 +7,7 @@ Deploy [xmrig](//github.com/xmrig/xmrig) - High Perf CryptoNote CPU Miner
 Requirements
 ---------------
 
-* Ansible 2.2;
+* Ansible 2.4+;
 * xmrig 2.4.5+
 * jmespath;
 * Linux systemd distro (ArchLinux 100% supported);

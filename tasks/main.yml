@@ -1,10 +1,10 @@
 ---
-- include: pre_requisite.yml
-- include: packages.yml
+- include_tasks: pre_requisite.yml
+- include_tasks: packages.yml
   when:
   - "vars['xmrig_install_package'] is defined"
   - "vars['xmrig_install_package'] == true"
-- include: xmrig_executor.yml
+- include_tasks: xmrig_executor.yml
   when:
   - "vars['xmrig_instances'] is defined"
   - "vars['xmrig_instances'] != ''"
