@@ -35,6 +35,9 @@ xmrig:
     restart: 'true'
   # Install xmrig package or not (default is 'false').
     install_package: 'true'
+  # 'present' (do nothing if package is already installed) or 'latest' (always
+  #  upgrade to last version).
+    package_state: 'latest'
   instance_settings:
   - name: 'cpu0'
     # 'cryptonight' (default) or 'cryptonight-lite'.

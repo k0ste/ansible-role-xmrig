@@ -16,6 +16,9 @@
     xmrig_install_package: "{{ hostvars[inventory_hostname]['xmrig'] |
                                json_query(\"[].role_settings[] |
                                map(&install_package || 'no', @)\") | join() }}"
+    xmrig_package_state: "{{ hostvars[inventory_hostname]['xmrig'] |
+                             json_query(\"[].role_settings[] |
+                             map(&package_state || 'present', @)\") | join() }}"
 - name: xmrig | Set facts about xmrig instance
   set_fact:
     xmrig_instances: "{{ hostvars[inventory_hostname]['xmrig'] |
