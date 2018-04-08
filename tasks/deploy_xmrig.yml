@@ -9,7 +9,8 @@
     mode: "0644"
     validate: "{{ 'xmrig --dry-run -c %s' }}"
   with_items: "{{ hostvars[inventory_hostname]['xmrig'] |
-    json_query(\"[].instance_settings[?name=='\" + vars['outer_item'] + \"']\") }}"
+                  json_query(\"[].instance_settings[?name=='\" +
+                  vars['outer_item'] + \"']\") }}"
   loop_control:
     label: "{{ item.name }}"
   notify:
@@ -21,7 +22,8 @@
     daemon_reload: "yes"
     enabled: "yes"
   with_items: "{{ hostvars[inventory_hostname]['xmrig'] |
-    json_query(\"[].instance_settings[?name=='\" + vars['outer_item'] + \"']\") }}"
+                  json_query(\"[].instance_settings[?name=='\" +
+                  vars['outer_item'] + \"']\") }}"
   loop_control:
     label: "{{ item.name }}"
   when:

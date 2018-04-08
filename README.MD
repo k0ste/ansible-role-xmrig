@@ -1,32 +1,41 @@
-ansible-xmrig
-===============
+# ansible-xmrig
 
 Deploy [xmrig](//github.com/xmrig/xmrig) - High Perf CryptoNote CPU Miner
 (Monero, Aeon).
 
-Requirements
----------------
+## Requirements
 
 * Ansible 2.4+;
 * xmrig 2.4.5+
-* jmespath;
 * Linux systemd distro (ArchLinux 100% supported);
 
-Extra
----------
+# Extra
 
 ~~Please note that is not possible to validate json configuration because `xmrig`
 use wrong exit codes, see [xmrig#341](//github.com/xmrig/xmrig/issues/341).~~
+
 Option `--dry-run` supported since `xmrig` 2.4.5.
 
 Role will supported multi `xmrig` instances. E.g. you can run two instances on
 different cpu's, for example one instance for `monero` another one for `aeon`.
 
-Example configuration
------------------------
+# Example configuration
 
 ```yaml
 ---
+# Template user settings
+xmrig_wallet: 'Wmt7Dx71mmZFaKNMxzD12KXKv1D7moHhKEKV9aZxZ3gAYF8NqLygY23T1heASC2fnxAYcfKW7x2xN9UCtKJBPusg1GM9ZGEcD'
+xmrig_difficulty: '10000'
+
+# Template pool settings
+xmrig_pools:
+- url: 'aeon.napaster.name:7777'
+  user: "{{ xmrig_wallet + '.' + xmrig_difficulty }}"
+  pass: 'x'
+  keepalive: 'true'
+  nicehash: 'false'
+
+# Role settings
 xmrig:
 - role_settings:
   # Enable xmrig service (default is 'false').
@@ -79,7 +88,7 @@ xmrig:
       worker_id: 'null'
     pools:
     # URL of mining server.
-    - url: 'xmr.napaster.name:15555'
+    - url: 'monero.napaster.name:14444'
       # Username for mining server.
       user: '43kwWi8seNj1arEEKkbS95jAQRdPuY6hmiKqwS3wirGgNG5xPqUBxJvj214k1w48rB8Hzht9ZpUWcb2AWxmCL41tCH11mjh'
       # Password for mining server.
@@ -108,13 +117,5 @@ xmrig:
     - port: '0'
       access_token: 'null'
       worker_id: 'null'
-    pools:
-    # Additional user string options supported.
-    - url: 'aeon.napaster.name:43335'
-      user:
-      - user_name: 'Wmt7Dx71mmZFaKNMxzD12KXKv1D7moHhKEKV9aZxZ3gAYF8NqLygY23T1heASC2fnxAYcfKW7x2xN9UCtKJBPusg1GM9ZGEcD'
-        payment_id: 'payment_id2'
-        worker_name: "worker_name2"
-        email: "user2@example.com"
-      pass: 'x'
+    pools: "{{ xmrig_pools }}"
 ```

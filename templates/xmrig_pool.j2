@@ -12,28 +12,6 @@
 {{ '      ' ~ '\"pass\"' ~ ': \"' ~ xp.pass ~ '\",' }}
 {% endif %}
 {% if xp.user is defined and xp.user != '' %}
-{% if xp.user is string %}
 {{ '      ' ~ '\"user\"' ~ ': \"' ~ xp.user ~ '\",' }}
-{% elif xp.user is sequence %}
-{% for pu in xp.user %}
-{% if pu.user_name is defined and pu.user_name != '' %}
-{% if loop.first %}
-{{ '      ' ~ '\"user\"' ~ ': \"' ~ pu.user_name -}}
-{% endif %}
-{% if pu.worker_name is defined and pu.worker_name != '' %}
-{% if pu.payment_id is defined and pu.payment_id != '' %}
-{{ '.' ~ pu.payment_id -}}
-{% endif %}
-{{ '.' ~ pu.worker_name -}}
-{% endif %}
-{% if loop.last %}
-{% if pu.email is defined and pu.email %}
-{{ '/' ~ pu.email -}}
-{% endif %}
-{{ '\",' }}
-{% endif %}
-{% endif %}
-{% endfor %}
-{% endif %}
 {% endif %}
 {{ '    ' + '},\n' }}
