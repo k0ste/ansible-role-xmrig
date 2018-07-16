@@ -3,27 +3,27 @@
   template:
     src: "xmrig.j2"
     dest: "{{ hostvars[inventory_hostname]['xmrig_conf_dest'] ~ '/' ~
-              item.name ~ '.conf' }}"
+      item.name ~ '.conf' }}"
     owner: "{{ hostvars[inventory_hostname]['xmrig_user'] }}"
     group: "{{ hostvars[inventory_hostname]['xmrig_group'] }}"
     mode: "0644"
     validate: "{{ 'xmrig --dry-run -c %s' }}"
-  with_items: "{{ hostvars[inventory_hostname]['xmrig'] |
-                  json_query(\"[].instance_settings[?name=='\" +
-                  vars['outer_item'] + \"']\") }}"
+  loop: "{{ hostvars[inventory_hostname]['xmrig'] |
+    json_query(\"[].instance_settings[?name=='\" ~
+    vars['outer_item'] ~ \"']\") | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.name }}"
   notify:
   - "Restart xmrig"
 - name: xmrig | Enable xmrig service
   systemd:
-    name: "{{ hostvars[inventory_hostname]['xmrig_service'] + item.name }}"
+    name: "{{ hostvars[inventory_hostname]['xmrig_service'] ~ item.name }}"
     state: "started"
     daemon_reload: "yes"
     enabled: "yes"
   with_items: "{{ hostvars[inventory_hostname]['xmrig'] |
-                  json_query(\"[].instance_settings[?name=='\" +
-                  vars['outer_item'] + \"']\") }}"
+    json_query(\"[].instance_settings[?name=='\" ~
+    vars['outer_item'] ~ \"']\") | flatten(levels=1) }}"
   loop_control:
     label: "{{ item.name }}"
   when:

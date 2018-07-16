@@ -3,7 +3,7 @@
   systemd:
     name: "{{ vars['xmrig_service'] ~ item }}"
     state: "restarted"
-  with_items: "{{ vars['xmrig_instances'] }}"
+  loop: "{{ vars['xmrig_instances'] | flatten(levels=1) }}"
   when:
   - "vars['xmrig_restart'] is defined"
   - "vars['xmrig_restart'] == true"

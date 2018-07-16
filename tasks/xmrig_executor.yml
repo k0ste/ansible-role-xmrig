@@ -1,5 +1,5 @@
 ---
 - include_tasks: deploy_xmrig.yml
-  with_items: "{{ vars['xmrig_instances'] }}"
+  loop: "{{ vars['xmrig_instances'] | flatten(levels=1) }}"
   loop_control:
     loop_var: "outer_item"
