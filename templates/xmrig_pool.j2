@@ -1,4 +1,3 @@
-{{ '    ' + '{' }}
 {% if xp.keepalive is defined and xp.keepalive in ['true', 'false'] %}
 {{ '      ' ~ '\"keepalive\"' ~ ': ' ~ xp.keepalive ~ ',' }}
 {% endif %}
@@ -14,4 +13,10 @@
 {% if xp.user is defined and xp.user != '' %}
 {{ '      ' ~ '\"user\"' ~ ': \"' ~ xp.user ~ '\",' }}
 {% endif %}
-{{ '    ' + '},\n' }}
+{% if xp.rig_id is defined and xp.rig_id != '' %}
+{% if xp.rig_id == 'null' %}
+{{ '      ' ~ '\"rig-id\"' ~ ': ' ~ xp.rig_id ~ ',' }}
+{% else %}
+{{ '      ' ~ '\"rig-id\"' ~ ': \"' ~ xp.rig_id ~ '\",' }}
+{% endif %}
+{% endif %}

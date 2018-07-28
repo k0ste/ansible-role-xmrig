@@ -2,30 +2,50 @@
 - name: xmrig | Add the OS specific variables
   include_vars: "{{
     hostvars[inventory_hostname]['ansible_os_family'] + '.yml' }}"
-- name: xmrig | Set facts about role settings
-  set_fact:
-    xmrig_enable: "{{ hostvars[inventory_hostname]['xmrig'] |
-      json_query(\"[].role_settings[] | map(&enable || 'no', @) | [0]\") }}"
-    xmrig_restart: "{{ hostvars[inventory_hostname]['xmrig'] |
-      json_query(\"[].role_settings[] | map(&restart || 'no', @) | [0]\") }}"
-    xmrig_install_package: "{{ hostvars[inventory_hostname]['xmrig'] |
-      json_query(\"[].role_settings[] | map(&install_package || 'no', @) |
-      [0]\") }}"
-    xmrig_package_state: "{{ hostvars[inventory_hostname]['xmrig'] |
-      json_query(\"[].role_settings[] | map(&package_state || 'present', @) |
-      [0]\") }}"
-- name: xmrig | Set facts about xmrig instance
+- name: xmrig | Set facts about xmrig instances
   set_fact:
     xmrig_instances: "{{ hostvars[inventory_hostname]['xmrig'] |
-      json_query('[].instance_settings[].name') }}"
+      json_query('[].xmrig_settings[].{name: name, type: type}') }}"
+- name: xmrig | Assert that every xmrig instance have not null values
+  assert:
+    that:
+    - "item.name != ''"
+    - "item.type != None"
+    msg: "Some instance have not defined 'name' or 'type' fields."
+  loop: "{{ vars['xmrig_instances'] | flatten(levels=1) }}"
+  loop_control:
+    label: "{{
+      'check fields: ' ~ 'name: ' ~ item.name ~ ', type: ' ~ item.type }}"
+  when:
+  - "vars['xmrig_instances'] is defined"
+  - "vars['xmrig_instances'] != []"
+- name: xmrig | Set facts about xmrig instances types
+  set_fact:
+    xmrig_instances_types: "{{ hostvars[inventory_hostname]['xmrig'] |
+      json_query('[].xmrig_settings[].type') | unique }}"
+  when:
+  - "vars['xmrig_instances'] is defined"
+  - "vars['xmrig_instances'] != []"
+- name: xmrig | Set facts about packages state
+  set_fact:
+    xmrig_package_state: "{{ hostvars[inventory_hostname]['xmrig'] |
+      json_query(\"[] | map(&package_state || 'present', @) | [0]\") }}"
+  when:
+  - "hostvars[inventory_hostname]['xmrig'] |
+     json_query(vars['xmrig_install_package']) is defined"
+  - "hostvars[inventory_hostname]['xmrig'] |
+     json_query(vars['xmrig_install_package']) == 'true'"
+  vars:
+    xmrig_install_package: "[] | map(&install_package || 'false', @) | [0]"
 - name: xmrig | Make working directory
   file:
-    path: "{{ hostvars[inventory_hostname]['xmrig_conf_dest'] |
+    path: "{{ hostvars[inventory_hostname]['xmrig_' + item + '_conf_dest'] |
       default(omit) }}"
     state: "directory"
     owner: "root"
     group: "root"
     mode: "0755"
+  loop: "{{ vars['xmrig_instances_types'] | flatten(levels=1) }}"
   when:
-  - "vars['xmrig_instances'] is defined"
-  - "vars['xmrig_instances'] != []"
+  - "vars['xmrig_instances_types'] is defined"
+  - "vars['xmrig_instances_types'] != []"

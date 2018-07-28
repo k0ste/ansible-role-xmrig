@@ -1,6 +1,12 @@
 ---
 - name: xmrig | Install the required packages in ArchLinux derivatives
   pacman:
-    name: "{{ hostvars[inventory_hostname]['xmrig_package'] }}"
+    name: "{{ hostvars[inventory_hostname]['xmrig_' + item + '_package'] }}"
     state: "{{ vars['xmrig_package_state'] | default(omit) }}"
     update_cache: "yes"
+  loop: "{{ vars['xmrig_instances_types'] | flatten(levels=1) }}"
+  loop_control:
+    label: "{{ hostvars[inventory_hostname]['xmrig_' + item + '_package'] }}"
+  when:
+  - "vars['xmrig_instances_types'] is defined"
+  - "vars['xmrig_instances_types'] != []"

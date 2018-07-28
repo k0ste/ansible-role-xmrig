@@ -1,9 +1,18 @@
 ---
 - import_tasks: pre_requisite.yml
+  when:
+  - "hostvars[inventory_hostname]['xmrig'] is defined"
+  - "hostvars[inventory_hostname]['xmrig'] != ''"
 - include_tasks: packages.yml
   when:
-  - "vars['xmrig_install_package'] is defined"
-  - "vars['xmrig_install_package'] == true"
+  - "hostvars[inventory_hostname]['xmrig'] is defined"
+  - "hostvars[inventory_hostname]['xmrig'] != ''"
+  - "hostvars[inventory_hostname]['xmrig'] |
+     json_query(vars['xmrig_install_package']) is defined"
+  - "hostvars[inventory_hostname]['xmrig'] |
+     json_query(vars['xmrig_install_package']) == 'true'"
+  vars:
+    xmrig_install_package: "[] | map(&install_package || 'false', @) | [0]"
 - include_tasks: xmrig_executor.yml
   when:
   - "vars['xmrig_instances'] is defined"

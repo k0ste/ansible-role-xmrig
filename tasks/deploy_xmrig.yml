@@ -2,30 +2,40 @@
 - name: xmrig | Deploy xmrig configuration
   template:
     src: "xmrig.j2"
-    dest: "{{ hostvars[inventory_hostname]['xmrig_conf_dest'] ~ '/' ~
-      item.name ~ '.conf' }}"
-    owner: "{{ hostvars[inventory_hostname]['xmrig_user'] }}"
-    group: "{{ hostvars[inventory_hostname]['xmrig_group'] }}"
+    dest: "{{ hostvars[inventory_hostname]['xmrig_' ~ item.type ~
+      '_conf_dest'] ~ '/' ~ item.name ~ '.conf' }}"
+    owner: "{{ hostvars[inventory_hostname]['xmrig_' + item.type + '_user'] }}"
+    group: "{{ hostvars[inventory_hostname]['xmrig_' + item.type + '_group'] }}"
     mode: "0644"
-    validate: "{{ 'xmrig --dry-run -c %s' }}"
+    validate: "
+      {% if item.type == 'cpu' %}
+        {{- 'xmrig --dry-run -c %s' -}}
+      {% elif item.type == 'amd' %}
+        {{- 'xmrig-amd --dry-run -c %s' -}}
+      {% endif %}"
   loop: "{{ hostvars[inventory_hostname]['xmrig'] |
-    json_query(\"[].instance_settings[?name=='\" ~
-    vars['outer_item'] ~ \"']\") | flatten(levels=1) }}"
+    json_query(\"[].xmrig_settings[?name=='\" ~
+    vars['outer_item'].name ~ \"']\") | flatten(levels=1) }}"
   loop_control:
-    label: "{{ item.name }}"
+    label: "{{ 'xmrig-' ~ outer_item.type ~ ': ' ~ outer_item.name }}"
   notify:
   - "Restart xmrig"
 - name: xmrig | Enable xmrig service
   systemd:
-    name: "{{ hostvars[inventory_hostname]['xmrig_service'] ~ item.name }}"
-    state: "started"
-    daemon_reload: "yes"
+    name: "{{ hostvars[inventory_hostname]['xmrig_' ~ item.type ~ '_service'] ~
+      item.name }}"
     enabled: "yes"
-  with_items: "{{ hostvars[inventory_hostname]['xmrig'] |
-    json_query(\"[].instance_settings[?name=='\" ~
-    vars['outer_item'] ~ \"']\") | flatten(levels=1) }}"
+  loop: "{{ hostvars[inventory_hostname]['xmrig'] |
+    json_query(\"[].xmrig_settings[?name=='\" ~
+    vars['outer_item'].name ~ \"']\") | flatten(levels=1) }}"
   loop_control:
-    label: "{{ item.name }}"
+    label: "{{ 'xmrig-' ~ outer_item.type ~ ': ' ~ outer_item.name }}"
   when:
-  - "vars['xmrig_enable'] is defined"
-  - "vars['xmrig_enable'] == true"
+  - "hostvars[inventory_hostname]['xmrig'] is defined"
+  - "hostvars[inventory_hostname]['xmrig'] != ''"
+  - "hostvars[inventory_hostname]['xmrig'] |
+     json_query(vars['xmrig_enable']) is defined"
+  - "hostvars[inventory_hostname]['xmrig'] |
+     json_query(vars['xmrig_enable']) == 'true'"
+  vars:
+    xmrig_enable: "[] | map(&enable || 'false', @) | [0]"

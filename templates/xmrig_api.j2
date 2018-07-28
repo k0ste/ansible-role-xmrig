@@ -15,3 +15,9 @@
 {{ '    ' ~ '\"worker-id\"' ~ ': \"' ~ xa.worker_id ~ '\",' }}
 {% endif %}
 {% endif %}
+{% if xa.ipv6 is defined and xa.ipv6 in ['true', 'false'] %}
+{{ '    ' ~ '\"ipv6\"' ~ ': ' ~ xa.ipv6 ~ ',' }}
+{% endif %}
+{% if xa.restricted is defined and xa.restricted in ['true', 'false'] %}
+{{ '    ' ~ '\"restricted\"' ~ ': ' ~ xa.restricted ~ ',' }}
+{% endif %}

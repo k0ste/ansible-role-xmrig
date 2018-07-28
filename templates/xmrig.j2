@@ -4,6 +4,11 @@
 
 {{ '{' }}
 {% include 'xmrig_main.j2' %}
+{% if item.type == 'cpu' %}
+{% include 'xmrig_cpu.j2' %}
+{% elif item.type == 'amd' %}
+{% include 'xmrig_amd.j2' %}
+{% endif %}
 {% if item.api is defined and item.api != '' %}
 {% for xa in item.api %}
 {% if loop.first %}
@@ -19,10 +24,14 @@
 {% for xp in item.pools %}
 {% if loop.first %}
 {{ '  ' + '\"pools\"' + ': [' }}
+{{ '    ' + '{' }}
 {% endif %}
 {% include 'xmrig_pool.j2' %}
 {% if loop.last %}
+{{ '    ' + '}' }}
 {{ '  ' + '],' }}
+{% else %}
+{{ '    ' + '},' }}
 {% endif %}
 {% endfor %}
 {% endif %}
