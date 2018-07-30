@@ -11,24 +11,24 @@
 {% endif %}
 {% if th.index is defined and th.index != '' %}
 {{ '    ' + '{' }}
-{{ '    ' ~ '\"index\"' ~ ': ' ~ th.index ~ ',' }}
+{{ '      ' ~ '\"index\"' ~ ': ' ~ th.index ~ ',' }}
 {% if th.intensity is defined and th.intensity != '' %}
-{{ '    ' ~ '\"intensity\"' ~ ': ' ~ th.intensity ~ ',' }}
+{{ '      ' ~ '\"intensity\"' ~ ': ' ~ th.intensity ~ ',' }}
 {% endif %}
 {% if th.worksize is defined and th.worksize != '' %}
-{{ '    ' ~ '\"worksize\"' ~ ': ' ~ th.worksize ~ ',' }}
+{{ '      ' ~ '\"worksize\"' ~ ': ' ~ th.worksize ~ ',' }}
 {% endif %}
 {% if th.strided_index is defined and th.strided_index != '' %}
-{{ '    ' ~ '\"strided_index\"' ~ ': ' ~ th.strided_index ~ ',' }}
+{{ '      ' ~ '\"strided_index\"' ~ ': ' ~ th.strided_index ~ ',' }}
 {% endif %}
 {% if th.mem_chunk is defined and th.mem_chunk != '' %}
-{{ '    ' ~ '\"mem_chunk\"' ~ ': ' ~ th.mem_chunk ~ ',' }}
+{{ '      ' ~ '\"mem_chunk\"' ~ ': ' ~ th.mem_chunk ~ ',' }}
 {% endif %}
 {% if th.comp_mode is defined and th.comp_mode in ['true', 'false'] %}
-{{ '    ' ~ '\"comp_mode\"' ~ ': ' ~ th.comp_mode ~ ',' }}
+{{ '      ' ~ '\"comp_mode\"' ~ ': ' ~ th.comp_mode ~ ',' }}
 {% endif %}
 {% if th.affine_to_cpu is defined and th.affine_to_cpu in ['true', 'false'] %}
-{{ '    ' ~ '\"affine_to_cpu\"' ~ ': ' ~ th.affine_to_cpu ~ ',' }}
+{{ '      ' ~ '\"affine_to_cpu\"' ~ ': ' ~ th.affine_to_cpu ~ ',' }}
 {% endif %}
 {% endif %}
 {% if loop.last %}

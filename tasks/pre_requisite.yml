@@ -10,7 +10,7 @@
   assert:
     that:
     - "item.name != ''"
-    - "item.type != None"
+    - "item.type in ['cpu', 'amd']"
     msg: "Some instance have not defined 'name' or 'type' fields."
   loop: "{{ vars['xmrig_instances'] | flatten(levels=1) }}"
   loop_control:
