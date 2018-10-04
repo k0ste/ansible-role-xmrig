@@ -1,3 +1,9 @@
+{% if item.asm is defined and item.asm in ['true', 'false'] %}
+{{ '  ' ~ '\"asm\"' ~ ': ' ~ item.asm ~ ',' }}
+{% elif item.asm is defined and item.asm in ['auto', 'none',
+                                             'intel', 'ryzen'] %}
+{{ '  ' ~ '\"asm\"' ~ ': \"' ~ item.asm ~ '\",' }}
+{% endif %}
 {% if item.av is defined and item.av in ['0', '1', '2', '3', '4'] %}
 {{ '  ' ~ '\"av\"' ~ ': ' ~ item.av ~ ',' }}
 {% endif %}

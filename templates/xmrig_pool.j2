@@ -20,3 +20,16 @@
 {{ '      ' ~ '\"rig-id\"' ~ ': \"' ~ xp.rig_id ~ '\",' }}
 {% endif %}
 {% endif %}
+{% if xp.variant is defined and xp.variant != '' %}
+{{ '      ' ~ '\"variant\"' ~ ': \"' ~ xp.variant ~ '\",' }}
+{% endif %}
+{% if xp.tls is defined and xp.tls in ['true', 'false'] %}
+{{ '      ' ~ '\"tls\"' ~ ': ' ~ xp.tls ~ ',' }}
+{% endif %}
+{% if xp.tls_fingerprint is defined and xp.tls_fingerprint != '' %}
+{% if xp.tls_fingerprint == 'null' %}
+{{ '      ' ~ '\"tls-fingerprint\"' ~ ': ' ~ xp.tls_fingerprint ~ ',' }}
+{% else %}
+{{ '      ' ~ '\"tls-fingerprint\"' ~ ': \"' ~ xp.tls_fingerprint ~ '\",' }}
+{% endif %}
+{% endif %}

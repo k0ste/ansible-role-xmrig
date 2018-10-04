@@ -57,6 +57,10 @@ xmrig:
     type: 'cpu'
 # 'cryptonight' (default) or 'cryptonight-lite'.
     algo: 'cryptonight'
+# 'true' or 'auto' - will try use proper assembly by CPUID information. This is
+# default value. 'false' or 'none' - feature disabled. 'intel' best for Intel
+# CPUs starting from Ivy Bridge/Sandy Bridge, 'ryzen' best for AMD Ryzen CPUs.
+    asm: 'auto'
 # Algorithm variation, 0 auto select.
     av: '0'
 # True to run the miner in the background.
@@ -111,9 +115,16 @@ xmrig:
       keepalive: 'true'
 # Enable nicehash/xmrig-proxy support.
       nicehash: 'false'
+# Algorithm PoW variant, '-1' for autodetection.
+      variant: '-1'
+# Enable TLS support.
+      tls: 'false'
+# Optionally verify pool certificate fingerprint.
+      tls_fingerprint: 'null'
   - name: 'cpu1'
     type: 'cpu'
     algo: 'cryptonight-lite'
+    asm: 'auto'
     av: '0'
     background: 'false'
     colors: 'false'
