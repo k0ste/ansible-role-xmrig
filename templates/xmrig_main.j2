@@ -43,3 +43,6 @@
 {% if item.watch is defined and item.watch in ['true', 'false'] %}
 {{ '  ' ~ '\"watch\"' ~ ': ' ~ item.watch ~ ',' }}
 {% endif %}
+{% if item.autosave is defined and item.autosave in ['true', 'false'] %}
+{{ '  ' ~ '\"autosave\"' ~ ': ' ~ item.autosave ~ ',' }}
+{% endif %}

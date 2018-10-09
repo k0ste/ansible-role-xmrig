@@ -1,3 +1,6 @@
+{% if item.cache is defined and item.cache in ['true', 'false'] %}
+{{ '  ' ~ '\"cache\"' ~ ': ' ~ item.cache ~ ',' }}
+{% endif %}
 {% if item.opencl_platform is defined and item.opencl_platform != '' %}
 {{ '  ' ~ '\"opencl-platform\"' ~ ': ' ~ item.opencl_platform ~ ',' }}
 {% endif %}
@@ -23,6 +26,9 @@
 {% endif %}
 {% if th.mem_chunk is defined and th.mem_chunk != '' %}
 {{ '      ' ~ '\"mem_chunk\"' ~ ': ' ~ th.mem_chunk ~ ',' }}
+{% endif %}
+{% if th.unroll is defined and th.unroll != '' %}
+{{ '      ' ~ '\"unroll\"' ~ ': ' ~ th.unroll ~ ',' }}
 {% endif %}
 {% if th.comp_mode is defined and th.comp_mode in ['true', 'false'] %}
 {{ '      ' ~ '\"comp_mode\"' ~ ': ' ~ th.comp_mode ~ ',' }}
