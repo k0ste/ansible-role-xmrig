@@ -1,5 +1,4 @@
-{% if item.algo is defined and
-      item.algo in ['cryptonight', 'cryptonight-lite', 'cryptonight-heavy'] %}
+{% if item.algo is defined and item.algo != '' %}
 {{ '  ' ~ '\"algo\"' ~ ': \"' ~ item.algo ~ '\",' }}
 {% endif %}
 {% if item.background is defined and item.background in ['true', 'false'] %}
@@ -17,6 +16,9 @@
 {% endif %}
 {% if item.donate_level is defined and item.donate_level != '' %}
 {{ '  ' ~ '\"donate-level\"' ~ ': ' ~ item.donate_level ~ ',' }}
+{% endif %}
+{% if item.huge_pages is defined and item.huge_pages in ['true', 'false'] %}
+{{ '  ' ~ '\"huge-pages\"' ~ ': ' ~ item.huge_pages ~ ',' }}
 {% endif %}
 {% if item.print_time is defined and item.print_time != '' %}
 {{ '  ' ~ '\"print-time\"' ~ ': ' ~ item.print_time ~ ',' }}

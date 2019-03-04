@@ -73,6 +73,8 @@ xmrig:
     cpu_priority: 'null'
 # Donate level, mininum 1%.
     donate_level: '5'
+# Use huge pages or not.
+    huge_pages: 'false'
 # Log all output to a file, example: "/var/log/xmrig/xmrig.log".
     log_file: 'null'
 # Maximum CPU usage for automatic mode, usually limiting factor is CPU cache
