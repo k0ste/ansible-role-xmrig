@@ -52,42 +52,52 @@ xmrig:
   package_state: 'latest'
   xmrig_settings:
 # Mandatory variable.
-  - name: 'cpu0'
+  - name: 'cpu'
 # Mandatory variable: miner type: 'cpu' for cpu miner, 'amd' for gpu miner.
     type: 'cpu'
-# 'cryptonight' (default) or 'cryptonight-lite'.
-    algo: 'cryptonight'
+# CPU settings (since xmrig 3.0).
+    cpu:
 # 'true' or 'auto' - will try use proper assembly by CPUID information. This is
 # default value. 'false' or 'none' - feature disabled. 'intel' best for Intel
 # CPUs starting from Ivy Bridge/Sandy Bridge, 'ryzen' best for AMD Ryzen CPUs.
-    asm: 'auto'
-# Algorithm variation, 0 auto select.
-    av: '0'
+    - asm: 'auto'
+# This option possible values is range from 1 to 5.
+      intensity: '2'
+# Mining threads priority, value from 1 (lowest priority) to 5 (highest
+# possible priority). Default value 'null' means miner don't change threads
+# priority at all.
+      priority: 'null'
+# Force enable ('true') or disable ('false') hardware AES support. Default
+# value 'null' means miner autodetect this feature. Usually don't need change
+# this option, this option useful for some rare cases when miner can't detect
+# hardware AES, but it available. If you force enable this option, but your
+# hardware not support it, miner will crash.
+      hw_aes: 'null'
+# Enable ('true') or disable ('false') huge pages support, by default 'true'.
+      huge_pages: 'false'
+# Number of miner threads.
+      threads: 'null'
 # True to run the miner in the background.
     background: 'false'
 # False to disable colored output.
     colors: 'false'
 # Set process affinity to CPU core(s) (defatul is 'null').
-    cpu_affinity: '0x7E'
-# Set process priority (0 idle, 2 normal to 5 highest).
-    cpu_priority: 'null'
+    affinity: '0x7E'
 # Donate level, mininum 1%.
     donate_level: '5'
-# Use huge pages or not.
-    huge_pages: 'false'
+# '0' - donate over proxy disabled, only direct connections allowed.
+# '1' - miner will try use proxy first with failback to direct connections.
+# '2' - direct connections disabled.
+# Default is '1'.
+    donate_over_proxy: '1'
 # Log all output to a file, example: "/var/log/xmrig/xmrig.log".
     log_file: 'null'
-# Maximum CPU usage for automatic mode, usually limiting factor is CPU cache
-# not this option.
-    max_cpu_usage: '75'
 # Print hashrate report every N seconds.
     print_time: '60'
 # Number of times to retry before switch to backup server.
     retries: '5'
 # Time to pause between retries.
     retry_pause: '5'
-# Set to 'true' to safe adjust threads and av settings for current CPU.
-    safe: 'false'
 # Use system log for output messages (default is 'false'). Set to 'true'
 # for output log to systemd journald.
     syslog: 'false'
@@ -95,18 +105,35 @@ xmrig:
     user_agent: 'null'
 # Watch for config (?).
     watch: 'false'
-# Number of miner threads.
-    threads: 'null'
-# https://github.com/xmrig/xmrig/wiki/API
     api:
-    - port: '0'
-      access_token: 'null'
+# Miner ID, if not set created automatically.
+    - id: 'null'
+# Optional worker name, if not set will be detected automatically.
       worker_id: 'null'
-      ipv6: 'false'
+    http:
+# Enable (true) or disable (false) HTTP API.
+    - enabled: 'true'
+# Host for incoming connections http://<host>:<port>, to allow connections from
+# all interfaces use 0.0.0.0 (IPv4) or :: (IPv4+IPv6).
+      host: '127.0.0.1'
+# Port for incoming connections http://<host>:<port>, zero port is valid option
+# and means random port.
+      port: '0'
+# Bearer access token to secure access to API. Miner support this token only via
+# 'Authorization' header.
+      access_token: 'null'
+# Use 'false' to allow remote configuration.
       restricted: 'true'
+# RandomX algo settings.
+    randomx:
+# Disable per numa allocation if not enough RAM (default is enabled).
+    - numa: 'false'
+      init: '-1'
     pools:
 # URL of mining server.
     - url: 'monero.napaster.name:14444'
+# Algorithm PoW variant.
+      algo: 'cn/r'
 # Username for mining server.
       user: '43kwWi8seNj1arEEKkbS95jAQRdPuY6hmiKqwS3wirGgNG5xPqUBxJvj214k1w48rB8Hzht9ZpUWcb2AWxmCL41tCH11mjh'
 # Password for mining server.
@@ -117,43 +144,15 @@ xmrig:
       keepalive: 'true'
 # Enable nicehash/xmrig-proxy support.
       nicehash: 'false'
-# Algorithm PoW variant, '-1' for autodetection.
-      variant: '-1'
 # Enable TLS support.
       tls: 'false'
 # Optionally verify pool certificate fingerprint.
       tls_fingerprint: 'null'
-  - name: 'cpu1'
-    type: 'cpu'
-    algo: 'cryptonight-lite'
-    asm: 'auto'
-    av: '0'
-    background: 'false'
-    colors: 'false'
-    cpu_affinity: '0x7E00'
-    cpu_priority: 'null'
-    donate_level: '5'
-    log_file: 'null'
-    max_cpu_usage: '75'
-    print_time: '60'
-    retries: '5'
-    retry_pause: '5'
-    safe: 'false'
-    syslog: 'false'
-    user_agent: 'null'
-    watch: 'false'
-    threads: 'null'
-    api:
-    - port: '0'
-      access_token: 'null'
-      worker_id: 'null'
-      ipv6: 'false'
-      restricted: 'true'
-    pools: "{{ xmrig_pools }}"
+# Connect to daemon (monerod) instead pool?
+      daemon: 'false'
 # AMD GPU miner
   - name: 'opencl0'
     type: 'amd'
-    algo: 'cryptonight-lite'
     autosave: 'false'
 # Enable OpenCL cache or not.
     cache: 'true'
@@ -166,7 +165,6 @@ xmrig:
     print_time: '60'
     retries: '5'
     retry_pause: '5'
-    safe: 'false'
     syslog: 'false'
     user_agent: 'null'
     watch: 'false'
@@ -211,10 +209,13 @@ xmrig:
       comp_mode: 'true'
       affine_to_cpu: 'false'
     api:
-    - port: '0'
-      access_token: 'null'
+    - id: 'null'
       worker_id: 'null'
-      ipv6: 'false'
+    http:
+    - enabled: 'true'
+      host: '127.0.0.1'
+      port: '0'
+      access_token: 'null'
       restricted: 'true'
     pools: "{{ xmrig_pools }}"
 ```

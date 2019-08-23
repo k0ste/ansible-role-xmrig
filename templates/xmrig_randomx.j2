@@ -1,0 +1,6 @@
+{% if xr.init is defined and xr.init != '' %}
+{{ '    ' ~ '\"init\"' ~ ': ' ~ xr.init ~ ',' }}
+{% endif %}
+{% if xr.numa is defined and xr.numa in ['true', 'false'] %}
+{{ '      ' ~ '\"numa\"' ~ ': ' ~ xr.numa ~ ',' }}
+{% endif %}

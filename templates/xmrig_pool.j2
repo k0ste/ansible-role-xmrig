@@ -1,3 +1,6 @@
+{% if xp.algo is defined and xp.algo != '' %}
+{{ '      ' ~ '\"algo\"' ~ ': \"' ~ xp.algo ~ '\",' }}
+{% endif %}
 {% if xp.keepalive is defined and xp.keepalive in ['true', 'false'] %}
 {{ '      ' ~ '\"keepalive\"' ~ ': ' ~ xp.keepalive ~ ',' }}
 {% endif %}
@@ -20,9 +23,6 @@
 {{ '      ' ~ '\"rig-id\"' ~ ': \"' ~ xp.rig_id ~ '\",' }}
 {% endif %}
 {% endif %}
-{% if xp.variant is defined and xp.variant != '' %}
-{{ '      ' ~ '\"variant\"' ~ ': \"' ~ xp.variant ~ '\",' }}
-{% endif %}
 {% if xp.tls is defined and xp.tls in ['true', 'false'] %}
 {{ '      ' ~ '\"tls\"' ~ ': ' ~ xp.tls ~ ',' }}
 {% endif %}
@@ -32,4 +32,7 @@
 {% else %}
 {{ '      ' ~ '\"tls-fingerprint\"' ~ ': \"' ~ xp.tls_fingerprint ~ '\",' }}
 {% endif %}
+{% endif %}
+{% if xp.daemon is defined and xp.daemon in ['true', 'false'] %}
+{{ '      ' ~ '\"daemon\"' ~ ': ' ~ xp.daemon ~ ',' }}
 {% endif %}

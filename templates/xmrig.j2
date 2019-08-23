@@ -5,9 +5,32 @@
 {{ '{' }}
 {% include 'xmrig_main.j2' %}
 {% if item.type == 'cpu' %}
+{% if item.cpu is defined and item.cpu != '' %}
+{% for xc in item.cpu %}
+{% if loop.first %}
+{{ '  \"cpu\": {' }}
+{{ '    \"*\": {' }}
+{% endif %}
 {% include 'xmrig_cpu.j2' %}
+{% if loop.last %}
+{{ '    ' + '}' }}
+{{ '  ' + '},' }}
+{% endif %}
+{% endfor %}
+{% endif %}
 {% elif item.type == 'amd' %}
 {% include 'xmrig_amd.j2' %}
+{% endif %}
+{% if item.randomx is defined and item.randomx != '' %}
+{% for xr in item.randomx %}
+{% if loop.first %}
+{{ '  ' ~ '\"randomx\"' ~ ': {' }}
+{% endif %}
+{% include 'xmrig_randomx.j2' %}
+{% if loop.last %}
+{{ '  ' + '},' }}
+{% endif %}
+{% endfor %}
 {% endif %}
 {% if item.api is defined and item.api != '' %}
 {% for xa in item.api %}
@@ -15,6 +38,17 @@
 {{ '  ' ~ '\"api\"' ~ ': {' }}
 {% endif %}
 {% include 'xmrig_api.j2' %}
+{% if loop.last %}
+{{ '  ' + '},' }}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if item.http is defined and item.http != '' %}
+{% for xh in item.http %}
+{% if loop.first %}
+{{ '  ' ~ '\"http\"' ~ ': {' }}
+{% endif %}
+{% include 'xmrig_http.j2' %}
 {% if loop.last %}
 {{ '  ' + '},' }}
 {% endif %}

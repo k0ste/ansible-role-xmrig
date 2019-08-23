@@ -1,0 +1,19 @@
+{% if xh.enabled is defined and xh.enabled in ['true', 'false'] %}
+{{ '    ' ~ '\"enabled\"' ~ ': ' ~ xh.enabled ~ ',' }}
+{% endif %}
+{% if xh.host is defined and xh.host | ipaddr('host') %}
+{{ '    ' ~ '\"host\"' ~ ': \"' ~ xh.host ~ '\",' }}
+{% endif %}
+{% if xh.port is defined and xh.port != '' %}
+{{ '    ' ~ '\"port\"' ~ ': ' ~ xh.port ~ ',' }}
+{% endif %}
+{% if xh.access_token is defined and xh.access_token != '' %}
+{% if xh.access_token == 'null' %}
+{{ '    ' ~ '\"access-token\"' ~ ': ' ~ xh.access_token ~ ',' }}
+{% else %}
+{{ '    ' ~ '\"access-token\"' ~ ': \"' ~ xh.access_token ~ '\",' }}
+{% endif %}
+{% endif %}
+{% if xh.restricted is defined and xh.restricted in ['true', 'false'] %}
+{{ '    ' ~ '\"restricted\"' ~ ': ' ~ xh.restricted ~ ',' }}
+{% endif %}

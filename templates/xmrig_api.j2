@@ -1,23 +1,6 @@
-{% if xa.port is defined and xa.port != '' %}
-{{ '    ' ~ '\"port\"' ~ ': ' ~ xa.port ~ ',' }}
-{% endif %}
-{% if xa.access_token is defined and xa.access_token != '' %}
-{% if xa.access_token == 'null' %}
-{{ '    ' ~ '\"access-token\"' ~ ': ' ~ xa.access_token ~ ',' }}
-{% else %}
-{{ '    ' ~ '\"access-token\"' ~ ': \"' ~ xa.access_token ~ '\",' }}
-{% endif %}
-{% endif %}
 {% if xa.worker_id is defined and xa.worker_id != '' %}
-{% if xa.worker_id == 'null' %}
-{{ '    ' ~ '\"worker-id\"' ~ ': ' ~ xa.worker_id ~ ',' }}
-{% else %}
 {{ '    ' ~ '\"worker-id\"' ~ ': \"' ~ xa.worker_id ~ '\",' }}
 {% endif %}
-{% endif %}
-{% if xa.ipv6 is defined and xa.ipv6 in ['true', 'false'] %}
-{{ '    ' ~ '\"ipv6\"' ~ ': ' ~ xa.ipv6 ~ ',' }}
-{% endif %}
-{% if xa.restricted is defined and xa.restricted in ['true', 'false'] %}
-{{ '    ' ~ '\"restricted\"' ~ ': ' ~ xa.restricted ~ ',' }}
+{% if xa.id is defined and xa.id != '' %}
+{{ '    ' ~ '\"id\"' ~ ': \"' ~ xa.id ~ '\",' }}
 {% endif %}

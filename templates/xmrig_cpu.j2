@@ -1,29 +1,31 @@
-{% if item.asm is defined and item.asm in ['true', 'false'] %}
-{{ '  ' ~ '\"asm\"' ~ ': ' ~ item.asm ~ ',' }}
-{% elif item.asm is defined and item.asm in ['auto', 'none',
-                                             'intel', 'ryzen'] %}
-{{ '  ' ~ '\"asm\"' ~ ': \"' ~ item.asm ~ '\",' }}
+{% if xc.asm is defined and xc.asm in ['true', 'false'] %}
+{{ '      ' ~ '\"asm\"' ~ ': ' ~ xc.asm ~ ',' }}
+{% elif xc.asm is defined and xc.asm in ['intel', 'ryzen', 'bulldozer'] %}
+{{ '      ' ~ '\"asm\"' ~ ': \"' ~ xc.asm ~ '\",' }}
 {% endif %}
-{% if item.av is defined and item.av in ['0', '1', '2', '3', '4'] %}
-{{ '  ' ~ '\"av\"' ~ ': ' ~ item.av ~ ',' }}
+{% if xc.huge_pages is defined and xc.huge_pages in ['true', 'false'] %}
+{{ '      ' ~ '\"huge-pages\"' ~ ': ' ~ xc.huge_pages ~ ',' }}
 {% endif %}
-{% if item.max_cpu_usage is defined and item.max_cpu_usage != '' %}
-{{ '  ' ~ '\"max-cpu-usage\"' ~ ': ' ~ item.max_cpu_usage ~ ',' }}
+{% if xc.hw_aes is defined and xc.hw_aes in ['true', 'false'] %}
+{{ '      ' ~ '\"hw-aes\"' ~ ': ' ~ xc.hw_aes ~ ',' }}
 {% endif %}
-{% if item.cpu_affinity is defined and item.cpu_affinity != '' %}
-{% if item.cpu_affinity == 'null' %}
-{{ '  ' ~ '\"cpu-affinity\"' ~ ': ' ~ item.cpu_affinity ~ ',' }}
+{% if xc.affinity is defined and xc.affinity != '' %}
+{% if xc.affinity == 'null' %}
+{{ '      ' ~ '\"affinity\"' ~ ': ' ~ xc.affinity ~ ',' }}
 {% else %}
-{{ '  ' ~ '\"cpu-affinity\"' ~ ': \"' ~ item.cpu_affinity ~ '\",' }}
+{{ '      ' ~ '\"affinity\"' ~ ': \"' ~ xc.affinity ~ '\",' }}
 {% endif %}
 {% endif %}
-{% if item.cpu_priority is defined and item.cpu_priority != '' %}
-{% if item.cpu_priority == 'null' %}
-{{ '  ' ~ '\"cpu-priority\"' ~ ': ' ~ item.cpu_priority ~ ',' }}
+{% if xc.priority is defined and xc.priority != '' %}
+{% if xc.priority == 'null' %}
+{{ '      ' ~ '\"priority\"' ~ ': ' ~ xc.priority ~ ',' }}
 {% else %}
-{{ '  ' ~ '\"cpu-priority\"' ~ ': \"' ~ item.cpu_priority ~ '\",' }}
+{{ '      ' ~ '\"priority\"' ~ ': \"' ~ xc.priority ~ '\",' }}
 {% endif %}
 {% endif %}
-{% if item.threads is defined and item.threads != '' %}
-{{ '  ' ~ '\"threads\"' ~ ': ' ~ item.threads ~ ',' }}
+{% if xc.threads is defined and xc.threads != '' %}
+{{ '      ' ~ '\"threads\"' ~ ': ' ~ xc.threads ~ ',' }}
+{% endif %}
+{% if xc.intensity is defined and xc.intensity != '' %}
+{{ '      ' ~ '\"intensity\"' ~ ': ' ~ xc.intensity ~ ',' }}
 {% endif %}

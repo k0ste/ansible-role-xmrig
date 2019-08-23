@@ -1,6 +1,3 @@
-{% if item.algo is defined and item.algo != '' %}
-{{ '  ' ~ '\"algo\"' ~ ': \"' ~ item.algo ~ '\",' }}
-{% endif %}
 {% if item.background is defined and item.background in ['true', 'false'] %}
 {{ '  ' ~ '\"background\"' ~ ': ' ~ item.background ~ ',' }}
 {% endif %}
@@ -17,8 +14,9 @@
 {% if item.donate_level is defined and item.donate_level != '' %}
 {{ '  ' ~ '\"donate-level\"' ~ ': ' ~ item.donate_level ~ ',' }}
 {% endif %}
-{% if item.huge_pages is defined and item.huge_pages in ['true', 'false'] %}
-{{ '  ' ~ '\"huge-pages\"' ~ ': ' ~ item.huge_pages ~ ',' }}
+{% if item.donate_over_proxy is defined and
+      item.donate_over_proxy in ['1', '2', '3'] %}
+{{ '  ' ~ '\"donate-over-proxy\"' ~ ': ' ~ item.donate_over_proxy ~ ',' }}
 {% endif %}
 {% if item.print_time is defined and item.print_time != '' %}
 {{ '  ' ~ '\"print-time\"' ~ ': ' ~ item.print_time ~ ',' }}
@@ -28,9 +26,6 @@
 {% endif %}
 {% if item.retry_pause is defined and item.retry_pause != '' %}
 {{ '  ' ~ '\"retry-pause\"' ~ ': ' ~ item.retry_pause ~ ',' }}
-{% endif %}
-{% if item.safe is defined and item.safe in ['true', 'false'] %}
-{{ '  ' ~ '\"safe\"' ~ ': ' ~ item.safe ~ ',' }}
 {% endif %}
 {% if item.syslog is defined and item.syslog in ['true', 'false'] %}
 {{ '  ' ~ '\"syslog\"' ~ ': ' ~ item.syslog ~ ',' }}
